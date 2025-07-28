@@ -1,0 +1,103 @@
+Command: /Users/ant-smalls/.espressif/python_env/idf5.5_py3.12_env/bin/python /Users/ant-smalls/esp/esp-idf/tools/idf_monitor.py -p /dev/cu.usbmodem14201 -b 115200 --toolchain-prefix riscv32-esp-elf- --target esp32p4 --revision 1 --decode-panic backtrace /Users/ant-smalls/esp/projects/esp_p4_eye_proto/build/esp_p4_eye_proto.elf /Users/ant-smalls/esp/projects/esp_p4_eye_proto/build/bootloader/bootloader.elf -m '/Users/ant-smalls/.espressif/python_env/idf5.5_py3.12_env/bin/python' '/Users/ant-smalls/esp/esp-idf/tools/idf.py'
+ESP-ROM:esp32p4-eco2-20240710
+Build:Jul 10 2024
+rst:0x17 (CHIP_USB_UART_RESET),boot:0x308 (SPI_FAST_FLASH_BOOT)
+Core0 Saved PC:0x40009b6a
+Core1 Saved PC:0x4fc012cc
+SPI mode:DIO, clock div:1
+load:0x4ff33ce0,len:0x1650
+load:0x4ff29ed0,len:0xccc
+load:0x4ff2cbd0,len:0x3378
+entry 0x4ff29eda
+[0;32mI (11) boot: ESP-IDF v5.5-dev-3749-g98cd765953-dirty 2nd stage bootloader[0m
+[0;32mI (11) boot: compile time Jul 27 2025 09:54:36[0m
+[0;32mI (12) boot: Multicore bootloader[0m
+[0;32mI (13) boot: chip revision: v1.0[0m
+[0;32mI (13) boot: efuse block revision: v0.3[0m
+[0;32mI (13) boot.esp32p4: SPI Speed      : 80MHz[0m
+[0;32mI (14) boot.esp32p4: SPI Mode       : DIO[0m
+[0;32mI (14) boot.esp32p4: SPI Flash Size : 2MB[0m
+[0;32mI (14) boot: Enabling RNG early entropy source...[0m
+[0;32mI (15) boot: Partition Table:[0m
+[0;32mI (15) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (16) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (16) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (17) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (18) boot: End of partition table[0m
+[0;32mI (19) esp_image: segment 0: paddr=00010020 vaddr=40050020 size=17294h ( 94868) map[0m
+[0;32mI (33) esp_image: segment 1: paddr=000272bc vaddr=30100000 size=00068h (   104) load[0m
+[0;32mI (35) esp_image: segment 2: paddr=0002732c vaddr=4ff00000 size=08cech ( 36076) load[0m
+[0;32mI (42) esp_image: segment 3: paddr=00030020 vaddr=40000020 size=45044h (282692) map[0m
+[0;32mI (83) esp_image: segment 4: paddr=0007506c vaddr=4ff08cec size=0a3e8h ( 41960) load[0m
+[0;32mI (91) esp_image: segment 5: paddr=0007f45c vaddr=4ff13100 size=02988h ( 10632) load[0m
+[0;32mI (98) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (98) boot: Disabling RNG early entropy source...[0m
+[0;32mI (100) hex_psram: vendor id    : 0x0d (AP)[0m
+[0;32mI (101) hex_psram: Latency      : 0x01 (Fixed)[0m
+[0;32mI (101) hex_psram: DriveStr.    : 0x00 (25 Ohm)[0m
+[0;32mI (101) hex_psram: dev id       : 0x03 (generation 4)[0m
+[0;32mI (102) hex_psram: density      : 0x07 (256 Mbit)[0m
+[0;32mI (102) hex_psram: good-die     : 0x06 (Pass)[0m
+[0;32mI (102) hex_psram: SRF          : 0x02 (Slow Refresh)[0m
+[0;32mI (103) hex_psram: BurstType    : 0x00 ( Wrap)[0m
+[0;32mI (103) hex_psram: BurstLen     : 0x03 (2048 Byte)[0m
+[0;32mI (103) hex_psram: BitMode      : 0x01 (X16 Mode)[0m
+[0;32mI (104) hex_psram: Readlatency  : 0x02 (10 cycles@Fixed)[0m
+[0;32mI (104) hex_psram: DriveStrength: 0x00 (1/1)[0m
+[0;32mI (105) MSPI DQS: tuning success, best phase id is 0[0m
+[0;32mI (282) MSPI DQS: tuning success, best delayline id is 15[0m
+[0;32mI (282) esp_psram: Found 32MB PSRAM device[0m
+[0;32mI (282) esp_psram: Speed: 80MHz[0m
+[0;32mI (283) hex_psram: psram CS IO is dedicated[0m
+[0;32mI (283) cpu_start: Multicore app[0m
+[0;32mI (1569) esp_psram: SPI SRAM memory test OK[0m
+[0;32mI (1578) cpu_start: Pro cpu start user code[0m
+[0;32mI (1578) cpu_start: cpu freq: 360000000 Hz[0m
+[0;32mI (1578) app_init: Application information:[0m
+[0;32mI (1578) app_init: Project name:     esp_p4_eye_proto[0m
+[0;32mI (1579) app_init: App version:      b9c32db-dirty[0m
+[0;32mI (1579) app_init: Compile time:     Jul 27 2025 09:54:14[0m
+[0;32mI (1579) app_init: ELF file SHA256:  65a50a6a5...[0m
+[0;32mI (1579) app_init: ESP-IDF:          v5.5-dev-3749-g98cd765953-dirty[0m
+[0;32mI (1579) efuse_init: Min chip rev:     v0.1[0m
+[0;32mI (1580) efuse_init: Max chip rev:     v1.99 [0m
+[0;32mI (1580) efuse_init: Chip rev:         v1.0[0m
+[0;32mI (1580) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (1580) heap_init: At 4FF17560 len 00023A60 (142 KiB): RAM[0m
+[0;32mI (1581) heap_init: At 4FF3AFC0 len 00004BF0 (18 KiB): RAM[0m
+[0;32mI (1581) heap_init: At 4FF40000 len 00060000 (384 KiB): RAM[0m
+[0;32mI (1581) heap_init: At 50108080 len 00007F80 (31 KiB): RTCRAM[0m
+[0;32mI (1581) heap_init: At 30100068 len 00001F98 (7 KiB): TCM[0m
+[0;32mI (1582) esp_psram: Adding pool of 32768K of PSRAM memory to heap allocator[0m
+[0;33mW (1583) spi_flash: GigaDevice detected but related driver is not linked, please check option `SPI_FLASH_SUPPORT_GD_CHIP`[0m
+[0;32mI (1583) spi_flash: detected chip: generic[0m
+[0;32mI (1583) spi_flash: flash io: dio[0m
+[0;33mW (1584) spi_flash: Detected size(16384k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (1585) main_task: Started on CPU0[0m
+[0;32mI (1595) main_task: Calling app_main()[0m
+[0;32mI (1595) main: Main App Started:[0m
+[0;32mI (1605) main: Starting camera hardware init test[0m
+[0;32mI (1605) camera_init: Using resolution: 1280 x 720 [0m
+[0;32mI (1605) camera_init: External clock started[0m
+[0;32mI (1705) camera_init: Camera powered on[0m
+[0;32mI (1905) camera_init: Camera reset completed[0m
+[0;33mW (1905) i2c.master: Please check pull-up resistances whether be connected properly. Otherwise unexpected behavior would happen. For more detailed information, please read docs[0m
+[0;32mI (1905) camera_init: I2C bus initialized[0m
+[0;32mI (1925) ov2710: Detected Camera sensor PID=0x2710[0m
+[0;32mI (2035) camera_init: ISP initialized successfully[0m
+[0;32mI (2035) camera_init: Brightness set to 59%[0m
+[0;32mI (2035) camera_init: Current format - width: 1280, height: 720, pixelformat: 0x50424752[0m
+[0;32mI (2035) camera_init: Buffers requested successfully[0m
+[0;32mI (2035) camera_init: Buffer 0 size from query: 1843200[0m
+[0;32mI (2035) camera_init: Buffer 0 queued successfully[0m
+[0;32mI (2035) camera_init: Buffer 1 size from query: 1843200[0m
+[0;32mI (2035) camera_init: Buffer 1 queued successfully[0m
+[1;31mE (2035) ISP_COLOR: esp_isp_color_configure(29): invalid color config[0m
+[1;31mE (2035) isp_video: isp_start_color(1018): failed to configure color[0m
+[1;31mE (2035) isp_video: isp_start_pipeline(1193): failed to start color[0m
+[1;31mE (2035) isp_video: esp_video_isp_start_by_csi(1995): failed to start ISP pipeline[0m
+[1;31mE (2035) csi_video: csi_video_start(423): failed to start ISP[0m
+[1;31mE (2035) esp_video: video->ops->start=102[0m
+[1;31mE (2035) camera_init: Failed to start streaming[0m
+[1;31mE (2035) main: Video camera device setup failed: ESP_FAIL[0m
+[0;32mI (2035) main_task: Returned from app_main()[0m

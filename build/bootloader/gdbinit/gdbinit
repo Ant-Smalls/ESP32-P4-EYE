@@ -1,0 +1,2 @@
+source /Users/ant-smalls/esp/projects/esp_p4_eye_proto/build/bootloader/gdbinit/symbols
+source /Users/ant-smalls/esp/projects/esp_p4_eye_proto/build/bootloader/gdbinit/connect
