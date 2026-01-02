@@ -1,0 +1,34 @@
+Command: /Users/ant-smalls/.espressif/python_env/idf5.5_py3.12_env/bin/python /Users/ant-smalls/esp/esp-idf/tools/idf_monitor.py -p /dev/cu.usbmodem14201 -b 115200 --toolchain-prefix riscv32-esp-elf- --target esp32p4 --revision 1 --decode-panic backtrace /Users/ant-smalls/esp/projects/esp_p4_eye_proto/build/esp_p4_eye_proto.elf /Users/ant-smalls/esp/projects/esp_p4_eye_proto/build/bootloader/bootloader.elf -m '/Users/ant-smalls/.espressif/python_env/idf5.5_py3.12_env/bin/python' '/Users/ant-smalls/esp/esp-idf/tools/idf.py'
+ESP-ROM:esp32p4-eco2-20240710
+Build:Jul 10 2024
+rst:0x17 (CHIP_USB_UART_RESET),boot:0x308 (SPI_FAST_FLASH_BOOT)
+Core0 Saved PC:0x4fc18dcc
+Core1 Saved PC:0x4fc058e0
+SPI mode:DIO, clock div:1
+load:0x4ff33ce0,len:0x1650
+load:0x4ff29ed0,len:0xccc
+load:0x4ff2cbd0,len:0x3378
+entry 0x4ff29eda
+[0;32mI (8) boot: ESP-IDF v5.5-dev-3749-g98cd765953-dirty 2nd stage bootloader[0m
+[0;32mI (9) boot: compile time Jul 28 2025 21:16:06[0m
+[0;32mI (9) boot: Multicore bootloader[0m
+[0;32mI (10) boot: chip revision: v1.0[0m
+[0;32mI (10) boot: efuse block revision: v0.3[0m
+[0;32mI (11) boot.esp32p4: SPI Speed      : 80MHz[0m
+[0;32mI (11) boot.esp32p4: SPI Mode       : DIO[0m
+[0;32mI (11) boot.esp32p4: SPI Flash Size : 2MB[0m
+[0;32mI (12) boot: Enabling RNG early entropy source...[0m
+[0;32mI (12) boot: Partition Table:[0m
+[0;32mI (12) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (13) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (13) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (14) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (15) boot: End of partition table[0m
+[0;32mI (16) esp_image: segment 0: paddr=00010020 vaddr=40040020 size=0d6dch ( 55004) map[0m
+[0;32mI (25) esp_image: segment 1: paddr=0001d704 vaddr=30100000 size=00068h (   104) load[0m
+[0;32mI (26) esp_image: segment 2: paddr=0001d774 vaddr=4ff00000 size=028a4h ( 10404) load[0m
+[0;32mI (29) esp_image: segment 3: paddr=00020020 vaddr=40000020 size=3abb8h (240568) map[0m
+[0;32mI (64) esp_image: segment 4: paddr=0005abe0 vaddr=4ff028a4 size=11090h ( 69776) load[0m
+[0;32mI (77) esp_image: segment 5: paddr=0006bc78 vaddr=4ff13980 size=0206ch (  8300) load[0m
+[0;32mI (84) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (84) boot: Disabling RNG early entropy source...[0m

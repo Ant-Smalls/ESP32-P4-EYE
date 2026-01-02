@@ -4,19 +4,27 @@
 
 static const char *TAG = "psram_utils";
 
+/**
+ * @brief Allocate memory from PSRAM with DMA capability
+ * 
+ * @param size Size in bytes to allocate
+ * @param ptr Pointer to store the allocated memory address
+ * Allocate the PSRAM memory for DMA 
+ *  - If unsuccessful, allocate internal RAM with DMA 
+ * @return ESP_OK on success, ESP_ERR_NO_MEM on failure
+ */
 esp_err_t psram_alloc_dma(size_t size, void **ptr) {
+
     if (!ptr) {
         return ESP_ERR_INVALID_ARG;
     }
     
-    // Try PSRAM with DMA capability first
     *ptr = heap_caps_malloc(size, MALLOC_CAP_SPIRAM | MALLOC_CAP_DMA);
     if (*ptr) {
         ESP_LOGI(TAG, "Allocated %zu bytes from PSRAM with DMA capability", size);
         return ESP_OK;
     }
     
-    // Fallback to internal RAM with DMA
     *ptr = heap_caps_malloc(size, MALLOC_CAP_DMA);
     if (*ptr) {
         ESP_LOGW(TAG, "Allocated %zu bytes from internal RAM (PSRAM DMA allocation failed)", size);
@@ -26,20 +34,26 @@ esp_err_t psram_alloc_dma(size_t size, void **ptr) {
     ESP_LOGE(TAG, "Failed to allocate %zu bytes from both PSRAM and internal RAM", size);
     return ESP_ERR_NO_MEM;
 }
-
+/**
+ * @brief Allocate memory from PSRAM for general use (no DMA requirement)
+ * Allocate the PSRAM memory (general)
+ *  - If unsuccessful, allocate internal RAM (general)
+ * @param size Size in bytes to allocate
+ * @param ptr Pointer to store the allocated memory address
+ * @return ESP_OK on success, ESP_ERR_NO_MEM on failure
+ */
 esp_err_t psram_alloc_general(size_t size, void **ptr) {
+
     if (!ptr) {
         return ESP_ERR_INVALID_ARG;
     }
     
-    // Try PSRAM first
     *ptr = heap_caps_malloc(size, MALLOC_CAP_SPIRAM);
     if (*ptr) {
         ESP_LOGI(TAG, "Allocated %zu bytes from PSRAM", size);
         return ESP_OK;
     }
     
-    // Fallback to internal RAM
     *ptr = heap_caps_malloc(size, MALLOC_CAP_8BIT);
     if (*ptr) {
         ESP_LOGW(TAG, "Allocated %zu bytes from internal RAM (PSRAM allocation failed)", size);
@@ -50,37 +64,11 @@ esp_err_t psram_alloc_general(size_t size, void **ptr) {
     return ESP_ERR_NO_MEM;
 }
 
-esp_err_t psram_alloc_audio(size_t size, void **ptr) {
-    if (!ptr) {
-        return ESP_ERR_INVALID_ARG;
-    }
-    
-    // For audio, we might need DMA capability depending on the audio interface
-    // Try PSRAM with DMA first
-    *ptr = heap_caps_malloc(size, MALLOC_CAP_SPIRAM | MALLOC_CAP_DMA);
-    if (*ptr) {
-        ESP_LOGI(TAG, "Allocated %zu bytes for audio from PSRAM with DMA", size);
-        return ESP_OK;
-    }
-    
-    // Fallback to PSRAM without DMA
-    *ptr = heap_caps_malloc(size, MALLOC_CAP_SPIRAM);
-    if (*ptr) {
-        ESP_LOGI(TAG, "Allocated %zu bytes for audio from PSRAM", size);
-        return ESP_OK;
-    }
-    
-    // Final fallback to internal RAM
-    *ptr = heap_caps_malloc(size, MALLOC_CAP_8BIT);
-    if (*ptr) {
-        ESP_LOGW(TAG, "Allocated %zu bytes for audio from internal RAM (PSRAM allocation failed)", size);
-        return ESP_OK;
-    }
-    
-    ESP_LOGE(TAG, "Failed to allocate %zu bytes for audio from any memory type", size);
-    return ESP_ERR_NO_MEM;
-}
-
+/**
+ * @brief Free memory allocated from PSRAM
+ * 
+ * @param ptr Pointer to the memory to free
+ */
 void psram_free(void *ptr) {
     if (ptr) {
         heap_caps_free(ptr);
@@ -88,6 +76,14 @@ void psram_free(void *ptr) {
     }
 }
 
+/**
+ * @brief Print PSRAM memory statistics
+ * Display the following:
+ *  - PSRAM memory free
+ *  - largest PSRAM memory block free 
+ *  - PSRAM DMA memory free 
+ *  - largest DMA capabkle memory block free
+ */
 void psram_print_stats(void) {
     size_t psram_free = heap_caps_get_free_size(MALLOC_CAP_SPIRAM);
     size_t psram_largest = heap_caps_get_largest_free_block(MALLOC_CAP_SPIRAM);

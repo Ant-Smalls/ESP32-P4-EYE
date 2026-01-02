@@ -1,7 +1,7 @@
 {
     "version":            "1.2",
     "project_name":       "esp_p4_eye_proto",
-    "project_version":    "b9c32db-dirty",
+    "project_version":    "3ccb46e-dirty",
     "project_path":       "/Users/ant-smalls/esp/projects/esp_p4_eye_proto",
     "idf_path":           "/Users/ant-smalls/esp/esp-idf",
     "build_dir":          "/Users/ant-smalls/esp/projects/esp_p4_eye_proto/build",

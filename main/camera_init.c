@@ -1,3 +1,12 @@
+/**
+ * @file camera_init.c
+ * @brief Initalize the camera hardware and start the video system to capture frames
+ *
+ * @author Anthony Smaldore
+ * @date 2025-06-28
+ */
+
+
 #include "esp_cam_sensor_xclk.h"
 #include "driver/rtc_io.h"
 #include "driver/gpio.h"
@@ -37,19 +46,27 @@ static camera_dev_t g_camera_dev = {
     .pixelformat = 0
 };
 
-
+// Camera hardware variables
 static i2c_master_bus_handle_t i2c_bus = NULL;
 static esp_cam_sensor_xclk_handle_t xclk_handle = NULL;
 static bool i2c_initialized = false;
 static int isp_fd;
 
+
+/**
+ * @brief Setup the camera sensor, configure gpio pins, esp_video system settings, and initalize the camera. 
+ * Configure camera hardware including:
+ *  - internal clock
+ *  - power (EN) and reset (RST) pins
+ *  - MIPI camera settings for esp_video 
+ *  - Power on the camera
+ * 
+ * @return ESP_OK for success, ESP_FAIL for failure
+ */
 esp_err_t camera_hardware_init(void) {
 
     ESP_LOGI("camera_init", "Using resolution: %u x %u ", FRAME_WIDTH, FRAME_HEIGHT);
 
-
-     //Setup the hardware for the camera
-     //Start the external clock for the camera
     esp_cam_sensor_xclk_config_t xclk_cfg = {
         .esp_clock_router_cfg = {
             .xclk_pin = CAMERA_XCLK_PIN,
@@ -58,24 +75,18 @@ esp_err_t camera_hardware_init(void) {
     };
     ESP_ERROR_CHECK(esp_cam_sensor_xclk_allocate(ESP_CAM_SENSOR_XCLK_ESP_CLOCK_ROUTER, &xclk_handle));
     ESP_ERROR_CHECK(esp_cam_sensor_xclk_start(xclk_handle, &xclk_cfg));
-
     ESP_LOGI("camera_init", "External clock started");
 
-    //Power on the camera
-    //Enable the power and reset pins
     ESP_ERROR_CHECK(rtc_gpio_init(CAMERA_EN_PIN));
     ESP_ERROR_CHECK(rtc_gpio_set_direction(CAMERA_EN_PIN, RTC_GPIO_MODE_OUTPUT_ONLY));
     rtc_gpio_pulldown_dis(CAMERA_EN_PIN);
     rtc_gpio_pullup_dis(CAMERA_EN_PIN);
     rtc_gpio_hold_dis(CAMERA_EN_PIN);
 
-    //Turn on the camera and enable it to maintain power
     ESP_ERROR_CHECK(rtc_gpio_set_level(CAMERA_EN_PIN, 1));
     vTaskDelay(pdMS_TO_TICKS(100));
-
     ESP_LOGI("camera_init", "Camera powered on");
 
-    //Configure the RST pin
     gpio_config_t rst_cfg = {
         .pin_bit_mask = BIT64(CAMERA_RST_PIN),
         .mode = GPIO_MODE_OUTPUT,
@@ -84,39 +95,29 @@ esp_err_t camera_hardware_init(void) {
         .intr_type = GPIO_INTR_DISABLE
     };
     ESP_ERROR_CHECK(gpio_config(&rst_cfg));
-
-    //Reset the camera
     ESP_ERROR_CHECK(gpio_set_level(CAMERA_RST_PIN, 0));
     vTaskDelay(pdMS_TO_TICKS(100));
     ESP_ERROR_CHECK(gpio_set_level(CAMERA_RST_PIN, 1));
     vTaskDelay(pdMS_TO_TICKS(100));
-
     ESP_LOGI("camera_init", "Camera reset completed");
 
-
-    //Initialize the I2C bus
     ESP_ERROR_CHECK(camera_i2c_init());
     ESP_LOGI("camera_init", "I2C bus initialized");
 
-
-     // Configure MIPI CSI settings
     esp_video_init_csi_config_t csi_config = {
         .sccb_config = {
             .init_sccb = false,  
             .i2c_handle = i2c_bus,
-            .freq = 100000,  // 100kHz - standard I2C frequency for OV2710
+            .freq = 100000,  
         },
-        // These pins should match your hardware setup
-        .reset_pin = CAMERA_RST_PIN,  // Usually GPIO 39
-        .pwdn_pin = -1,   // Usually GPIO 40
+        .reset_pin = CAMERA_RST_PIN,  
+        .pwdn_pin = -1, 
     };
 
-    // Create main camera config structure
     esp_video_init_config_t cam_config = {
         .csi = &csi_config,
     };
 
-    // Initialize the camera
     esp_err_t ret = esp_video_init(&cam_config);
     if (ret != ESP_OK) {
         ESP_LOGE("camera_init", "Failed to initialize camera: 0x%x", ret);
@@ -126,7 +127,12 @@ esp_err_t camera_hardware_init(void) {
     return ESP_OK;
 }
 
-
+/**
+ * @brief Setup the ISP for the camera.
+ * @param fd File descriptor referencing the open video device
+ * Open the ISP device and store the reference to it.
+ * @return ESP_OK for success, ESP_FAIL for failure
+ */
 esp_err_t isp_init(int camera_fd) {
 
     g_camera_dev.isp_fd = open(ESP_VIDEO_ISP1_DEVICE_NAME, O_RDWR);
@@ -134,17 +140,20 @@ esp_err_t isp_init(int camera_fd) {
         ESP_LOGE("camera_init", "Failed to open ISP device");
         return ESP_FAIL;
     }
-
-    // Set the ISP file descriptor
     isp_fd = g_camera_dev.isp_fd;
 
     ESP_LOGI("camera_init", "ISP initialized successfully");
-
     return ESP_OK;
 }
 
-esp_err_t isp_set_contrast(uint32_t percent) 
-{
+/**
+ * @brief Set the contrast value for the ISP.
+ * @param percent Precentage of contrast to set for the ISP 
+ * Configure contrast settings for the device with the provided value.
+ * @return ESP_OK for success, ESP_FAIL for failure
+ */
+esp_err_t isp_set_contrast(uint32_t percent) {
+
     int32_t contrast_val = (percent * 255 / 100);
 
     struct v4l2_ext_controls controls = {
@@ -165,8 +174,14 @@ esp_err_t isp_set_contrast(uint32_t percent)
     return ESP_OK;
 }
 
-esp_err_t isp_set_saturation(uint32_t percent)
-{
+/**
+ * @brief Set the saturation value for the ISP.
+ * @param percent Precentage of saturation to set for the ISP 
+ * Configure saturation settings for the device with the provided value.
+ * @return ESP_OK for success, ESP_FAIL for failure
+ */
+esp_err_t isp_set_saturation(uint32_t percent) {
+
     int32_t saturation_val = (percent * 255 / 100);
 
     struct v4l2_ext_controls controls = {
@@ -187,8 +202,14 @@ esp_err_t isp_set_saturation(uint32_t percent)
     return ESP_OK;
 }
 
-esp_err_t isp_set_brightness(uint32_t percent)
-{
+/**
+ * @brief Set the brightness value for the ISP.
+ * @param percent Precentage of brightness to set for the ISP 
+ * Configure brightness settings for the device with the provided value.
+ * @return ESP_OK for success, ESP_FAIL for failure
+ */
+esp_err_t isp_set_brightness(uint32_t percent) {
+
     int32_t brightness_val = (percent * 255 / 100) - 127;
 
     struct v4l2_ext_controls controls = {
@@ -209,11 +230,16 @@ esp_err_t isp_set_brightness(uint32_t percent)
     return ESP_OK;
 }
 
-esp_err_t isp_set_hue(uint32_t percent)
-{
+/**
+ * @brief Set the hue value for the ISP.
+ * @param percent Precentage of hue to set for the ISP 
+ * Configure hue settings for the device with the provided value.
+ * @return ESP_OK for success, ESP_FAIL for failure
+ */
+esp_err_t isp_set_hue(uint32_t percent) {
+
     uint32_t hue_val = 360 * percent / 100;
 
-    // Ensure the hue value is within the supported range
     struct v4l2_ext_controls controls = {
         .ctrl_class = V4L2_CID_USER_CLASS,
         .count = 1,
@@ -232,10 +258,23 @@ esp_err_t isp_set_hue(uint32_t percent)
     return ESP_OK;
 }
 
+/**
+ * @brief Setup esp_video subsystem with the given camera device.
+ * Configure esp_video:
+ *  - Open the video device, 
+ *  - Setup the ISP
+ *  - Set the ISP values for the camera sensor 
+ *  - Set the default width, height, and pixel format for esp_video.g_camera_dev
+ *  - Request the frame buffers
+ *  - Allocate space for the buffers in the PSRAM 
+ *  - Queue the buffers to be used for frame captures
+ *  - Start streaming frames to the esp_video device
+ * @return ESP_OK for success, ESP_FAIL for failure
+ */
 esp_err_t setup_video_camera_device(void) {
+
     esp_err_t ret = ESP_OK;
     
-    // 1. Open the video device
     g_camera_dev.fd = open(CAMERA_DEV_PATH, O_RDONLY);
     if (g_camera_dev.fd < 0) {
         ESP_LOGE("camera_init", "Failed to open video device");
@@ -277,9 +316,6 @@ esp_err_t setup_video_camera_device(void) {
         return ret;
     }
 
-    
-
-    // 3. Query current format
     struct v4l2_format fmt = {
         .type = V4L2_BUF_TYPE_VIDEO_CAPTURE
     };
@@ -289,35 +325,29 @@ esp_err_t setup_video_camera_device(void) {
         return ESP_FAIL;
     }
 
-    // Log the current format
     ESP_LOGI("camera_init", "Current format - width: %d, height: %d, pixelformat: 0x%x", 
          fmt.fmt.pix.width, fmt.fmt.pix.height, fmt.fmt.pix.pixelformat);
 
-    // Store the current format
     g_camera_dev.width = fmt.fmt.pix.width;
     g_camera_dev.height = fmt.fmt.pix.height;
     g_camera_dev.pixelformat = fmt.fmt.pix.pixelformat;
-  
-    // 4. Request buffers
+
     struct v4l2_requestbuffers req = {0};
     req.count = CAMERA_BUF_NUM;
     req.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-    req.memory = V4L2_MEMORY_MMAP;  // Change to MMAP instead of USERPTR
-
+    req.memory = V4L2_MEMORY_MMAP; 
     if (ioctl(g_camera_dev.fd, VIDIOC_REQBUFS, &req) < 0) {
         ESP_LOGE("camera_init", "Failed to request buffers: %d", errno);
         close(g_camera_dev.fd);
         return ESP_FAIL;
     }
-
     ESP_LOGI("camera_init", "Buffers requested successfully");
 
-    // 5. Allocate and setup buffers
+    // Allocate and setup buffers
     for (uint8_t i = 0; i < req.count; i++) {
-        // First query the buffer to get the proper size
         struct v4l2_buffer buf = {0};
         buf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-        buf.memory = V4L2_MEMORY_MMAP;  // Match the memory type from request
+        buf.memory = V4L2_MEMORY_MMAP;  
         buf.index = i;
 
         if (ioctl(g_camera_dev.fd, VIDIOC_QUERYBUF, &buf) < 0) {
@@ -325,10 +355,8 @@ esp_err_t setup_video_camera_device(void) {
             close(g_camera_dev.fd);
             return ESP_FAIL;
         }
-
         ESP_LOGI("camera_init", "Buffer %d size from query: %d", i, buf.length);
 
-        // Map the buffer
         g_camera_dev.buffers[i] = mmap(
             NULL,
             buf.length,
@@ -337,16 +365,13 @@ esp_err_t setup_video_camera_device(void) {
             g_camera_dev.fd,
             buf.m.offset
         );
-
         if (g_camera_dev.buffers[i] == MAP_FAILED) {
             ESP_LOGE("camera_init", "Failed to mmap buffer %d: %d", i, errno);
             close(g_camera_dev.fd);
             return ESP_FAIL;
         }
-
         g_camera_dev.buffer_size = buf.length;
 
-        // Queue the buffer - keep the original queried buffer structure
         if (ioctl(g_camera_dev.fd, VIDIOC_QBUF, &buf) < 0) {
             ESP_LOGE("camera_init", "Failed to queue buffer %d: %d", i, errno);
             munmap(g_camera_dev.buffers[i], g_camera_dev.buffer_size);
@@ -357,7 +382,6 @@ esp_err_t setup_video_camera_device(void) {
         ESP_LOGI("camera_init", "Buffer %d queued successfully", i);
     }
 
-    // 5. Start streaming
     int type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
     if (ioctl(g_camera_dev.fd, VIDIOC_STREAMON, &type) < 0) {
         ESP_LOGE("camera_init", "Failed to start streaming");
@@ -365,46 +389,103 @@ esp_err_t setup_video_camera_device(void) {
         return ESP_FAIL;
     }
 
-    return ESP_OK;  // Return the file descriptor for future use
+    return ESP_OK;  
 }
 
-
-
-
-
+/**
+ * @brief De-intialize the camera hardware and de-allocate the buffers for the camera frames. 
+ * De-initalize the camera hardware and esp_video system:
+ *  - Stop streaming frames 
+ *  - De-allocate buffers for the frames
+ *  - Shutdown the esp_video system
+ *  - Turnoff the camera sensor
+ *  - Powerdown the camera
+ *  - De-initalize the I2C bus
+ *  - De-initalize the EN and RST pins
+ * 
+ * @return ESP_OK for success, ESP_FAIL for failure
+ */
 esp_err_t camera_hardware_deinit(void) {
 
-    //Stop the external clock for the camera and deinitialize the I2C bus
-    ESP_ERROR_CHECK(i2c_del_master_bus(i2c_bus));
-    ESP_ERROR_CHECK(esp_cam_sensor_xclk_stop(xclk_handle));
+    esp_err_t ret = ESP_OK;
 
     if (g_camera_dev.fd >= 0) {
-        // Stop streaming
         int type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-        ioctl(g_camera_dev.fd, VIDIOC_STREAMOFF, &type);
+        if (ioctl(g_camera_dev.fd, VIDIOC_STREAMOFF, &type) < 0) {
+            ESP_LOGW("camera_init", "Failed to stop streaming: %d", errno);
+            ret = ESP_FAIL;
+        }
 
-        // Unmap buffers
         for (int i = 0; i < CAMERA_BUF_NUM; i++) {
             if (g_camera_dev.buffers[i] != NULL && g_camera_dev.buffers[i] != MAP_FAILED) {
-                munmap(g_camera_dev.buffers[i], g_camera_dev.buffer_size);
+                if (munmap(g_camera_dev.buffers[i], g_camera_dev.buffer_size) < 0) {
+                    ESP_LOGW("camera_init", "Failed to unmap buffer %d: %d", i, errno);
+                    ret = ESP_FAIL;
+                }
                 g_camera_dev.buffers[i] = NULL;
             }
         }
 
-        // Close device
-        close(g_camera_dev.fd);
+        if (close(g_camera_dev.fd) < 0) {
+            ESP_LOGW("camera_init", "Failed to close video device: %d", errno);
+            ret = ESP_FAIL;
+        }
         g_camera_dev.fd = -1;
     }
 
-    return ESP_OK;
+    if (g_camera_dev.fd >= 0) {
+        if (close(g_camera_dev.fd) < 0) {
+            ESP_LOGW("camera_init", "Failed to close video device: %d", errno);
+            ret = ESP_FAIL;
+        }
+        g_camera_dev.fd = -1;
+    }
+
+    if (g_camera_dev.isp_fd >= 0) {
+        if (close(g_camera_dev.isp_fd) < 0) {
+            ESP_LOGW("camera_init", "Failed to close ISP device: %d", errno);
+            ret = ESP_FAIL;
+        }
+        g_camera_dev.isp_fd = -1;
+    }
+
+    esp_err_t video_ret = esp_video_deinit();
+    if (video_ret != ESP_OK) {
+        ESP_LOGW("camera_init", "Failed to deinitialize video subsystem: %d", video_ret);
+        ret = ESP_FAIL;
+    }
+
+    if (xclk_handle != NULL) {
+        ESP_ERROR_CHECK(esp_cam_sensor_xclk_stop(xclk_handle));
+        xclk_handle = NULL;
+    }
+
+    gpio_set_level(CAMERA_RST_PIN, 0); 
+    rtc_gpio_set_level(CAMERA_EN_PIN, 0);
+    vTaskDelay(pdMS_TO_TICKS(100)); 
+    ESP_LOGI("camera_init", "Camera powered down");
+
+    if (i2c_initialized) {
+        ESP_ERROR_CHECK(i2c_del_master_bus(i2c_bus));
+        i2c_initialized = false;
+    }
+
+    rtc_gpio_deinit(CAMERA_EN_PIN);
+    gpio_reset_pin(CAMERA_RST_PIN);
+
+    return ret;
 }
 
+/**
+ * @brief Initialize I2C 
+ *  - Configure I2C bus 
+ *  - Initialize the I2C bus
+ * @return ESP_OK for success, ESP_FAIL for failure
+ */
 esp_err_t camera_i2c_init(void){
 
-    //Check if the I2C bus is already initialized
     if (i2c_initialized) return ESP_OK;
 
-    //Configure the I2C bus
     i2c_master_bus_config_t i2c_cfg = {
         .clk_source = I2C_CLK_SRC_DEFAULT,
         .i2c_port = I2C_NUM_0,
@@ -413,67 +494,73 @@ esp_err_t camera_i2c_init(void){
         .flags.enable_internal_pullup = false
     };
 
-    //Initialize the I2C bus
     ESP_ERROR_CHECK(i2c_new_master_bus(&i2c_cfg, &i2c_bus));
     i2c_initialized = true;
 
     return ESP_OK;
 }
 
-
+/**
+ * @brief De-initialize I2C 
+ *  - Delete I2C bus 
+ * @return ESP_OK for success, ESP_FAIL for failure
+ */
 esp_err_t camera_i2c_deinit(void) {
 
-    //Check if the I2C bus is initialized
     if (!i2c_initialized) return ESP_OK;
 
-    //Deinitialize the I2C bus
     ESP_ERROR_CHECK(i2c_del_master_bus(i2c_bus));
     i2c_initialized = false;
 
     return ESP_OK;
 }
 
-
+/**
+ * @brief Retreieve the I2C handld reference.
+ * @param handle Reference to the buffer to store the open I2C bus in
+ * @return ESP_OK for success, ESP_FAIL for failure
+ */
 esp_err_t camera_get_i2c_bus_handle(i2c_master_bus_handle_t *handle) {
 
-    //Check if the I2C bus is initialized
     if (!i2c_initialized) return ESP_ERR_INVALID_STATE;
 
-    //Return the I2C bus handle
     *handle = i2c_bus;
 
     return ESP_OK;
 }
 
 
-
+/**
+ * @brief Capture a frame of image data.
+ * @param out_buffer Buffer to store the frame data captured
+ * @param out_buffer_size Size of the storage buffer 
+ *  - De-queue a buffer from the device  
+ *  - Save the frame data to the given buffer
+ *  - Re-queue the buffer to be used to capture more frames 
+ * @return ESP_OK for success, ESP_FAIL for failure
+ */
 esp_err_t camera_capture_one_frame(uint8_t **out_buffer, size_t *out_buffer_size)
 {
     if (!out_buffer || !out_buffer_size) {
         return ESP_ERR_INVALID_ARG;
     }
 
-    // Prepare buffer structure for dequeuing
     struct v4l2_buffer buf = {0};
     buf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
     buf.memory = V4L2_MEMORY_MMAP;
-
     ESP_LOGI("camera_init", "Attempting to capture frame...");
 
-    // Dequeue a buffer (this will wait for a frame to be ready)
     if (ioctl(g_camera_dev.fd, VIDIOC_DQBUF, &buf) < 0) {
         ESP_LOGE("camera_init", "Failed to dequeue buffer: %d", errno);
         return ESP_FAIL;
     }
 
-    // Get the frame data from our mapped buffer
     *out_buffer = g_camera_dev.buffers[buf.index];
     *out_buffer_size = buf.bytesused;
 
     ESP_LOGI("camera_init", "Frame captured successfully - buffer index: %d, size: %d bytes", 
              buf.index, buf.bytesused);
 
-    // Queue the buffer back to the camera
     if (ioctl(g_camera_dev.fd, VIDIOC_QBUF, &buf) < 0) {
         ESP_LOGE("camera_init", "Failed to requeue buffer: %d", errno);
         return ESP_FAIL;

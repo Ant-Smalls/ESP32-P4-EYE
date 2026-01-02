@@ -1,0 +1,245 @@
+Command: /Users/ant-smalls/.espressif/python_env/idf5.5_py3.12_env/bin/python /Users/ant-smalls/esp/esp-idf/tools/idf_monitor.py -p /dev/cu.usbmodem14201 -b 115200 --toolchain-prefix riscv32-esp-elf- --target esp32p4 --revision 1 --decode-panic backtrace /Users/ant-smalls/esp/projects/esp_p4_eye_proto/build/esp_p4_eye_proto.elf /Users/ant-smalls/esp/projects/esp_p4_eye_proto/build/bootloader/bootloader.elf -m '/Users/ant-smalls/.espressif/python_env/idf5.5_py3.12_env/bin/python' '/Users/ant-smalls/esp/esp-idf/tools/idf.py'
+ESP-ROM:esp32p4-eco2-20240710
+Build:Jul 10 2024
+rst:0x17 (CHIP_USB_UART_RESET),boot:0x308 (SPI_FAST_FLASH_BOOT)
+Core0 Saved PC:0x4000a250
+Core1 Saved PC:0x4fc012ca
+SPI mode:DIO, clock div:1
+load:0x4ff33ce0,len:0x1650
+load:0x4ff29ed0,len:0xccc
+load:0x4ff2cbd0,len:0x3378
+entry 0x4ff29eda
+[0;32mI (11) boot: ESP-IDF v5.5-dev-3749-g98cd765953-dirty 2nd stage bootloader[0m
+[0;32mI (11) boot: compile time Jul 28 2025 20:15:51[0m
+[0;32mI (12) boot: Multicore bootloader[0m
+[0;32mI (13) boot: chip revision: v1.0[0m
+[0;32mI (13) boot: efuse block revision: v0.3[0m
+[0;32mI (13) boot.esp32p4: SPI Speed      : 80MHz[0m
+[0;32mI (14) boot.esp32p4: SPI Mode       : DIO[0m
+[0;32mI (14) boot.esp32p4: SPI Flash Size : 2MB[0m
+[0;32mI (14) boot: Enabling RNG early entropy source...[0m
+[0;32mI (15) boot: Partition Table:[0m
+[0;32mI (15) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (16) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (16) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (17) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (18) boot: End of partition table[0m
+[0;32mI (19) esp_image: segment 0: paddr=00010020 vaddr=40050020 size=1850ch ( 99596) map[0m
+[0;32mI (34) esp_image: segment 1: paddr=00028534 vaddr=30100000 size=00068h (   104) load[0m
+[0;32mI (35) esp_image: segment 2: paddr=000285a4 vaddr=4ff00000 size=07a74h ( 31348) load[0m
+[0;32mI (42) esp_image: segment 3: paddr=00030020 vaddr=40000020 size=464f0h (287984) map[0m
+[0;32mI (83) esp_image: segment 4: paddr=00076518 vaddr=4ff07a74 size=0c9c4h ( 51652) load[0m
+[0;32mI (93) esp_image: segment 5: paddr=00082ee4 vaddr=4ff14480 size=02988h ( 10632) load[0m
+[0;32mI (100) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (101) boot: Disabling RNG early entropy source...[0m
+[0;32mI (103) hex_psram: vendor id    : 0x0d (AP)[0m
+[0;32mI (103) hex_psram: Latency      : 0x01 (Fixed)[0m
+[0;32mI (103) hex_psram: DriveStr.    : 0x00 (25 Ohm)[0m
+[0;32mI (104) hex_psram: dev id       : 0x03 (generation 4)[0m
+[0;32mI (104) hex_psram: density      : 0x07 (256 Mbit)[0m
+[0;32mI (104) hex_psram: good-die     : 0x06 (Pass)[0m
+[0;32mI (105) hex_psram: SRF          : 0x02 (Slow Refresh)[0m
+[0;32mI (105) hex_psram: BurstType    : 0x00 ( Wrap)[0m
+[0;32mI (105) hex_psram: BurstLen     : 0x03 (2048 Byte)[0m
+[0;32mI (106) hex_psram: BitMode      : 0x01 (X16 Mode)[0m
+[0;32mI (106) hex_psram: Readlatency  : 0x02 (10 cycles@Fixed)[0m
+[0;32mI (107) hex_psram: DriveStrength: 0x00 (1/1)[0m
+[0;32mI (107) MSPI DQS: tuning success, best phase id is 0[0m
+[0;32mI (284) MSPI DQS: tuning success, best delayline id is 15[0m
+[0;32mI (284) esp_psram: Found 32MB PSRAM device[0m
+[0;32mI (285) esp_psram: Speed: 80MHz[0m
+[0;32mI (286) hex_psram: psram CS IO is dedicated[0m
+[0;32mI (286) cpu_start: Multicore app[0m
+[0;32mI (1572) esp_psram: SPI SRAM memory test OK[0m
+[0;32mI (1582) cpu_start: Pro cpu start user code[0m
+[0;32mI (1582) cpu_start: cpu freq: 360000000 Hz[0m
+[0;32mI (1582) app_init: Application information:[0m
+[0;32mI (1582) app_init: Project name:     esp_p4_eye_proto[0m
+[0;32mI (1582) app_init: App version:      3ccb46e-dirty[0m
+[0;32mI (1583) app_init: Compile time:     Jul 28 2025 20:16:09[0m
+[0;32mI (1583) app_init: ELF file SHA256:  c346c92b1...[0m
+[0;32mI (1583) app_init: ESP-IDF:          v5.5-dev-3749-g98cd765953-dirty[0m
+[0;32mI (1583) efuse_init: Min chip rev:     v0.1[0m
+[0;32mI (1584) efuse_init: Max chip rev:     v1.99 [0m
+[0;32mI (1584) efuse_init: Chip rev:         v1.0[0m
+[0;32mI (1584) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (1584) heap_init: At 4FF18900 len 000226C0 (137 KiB): RAM[0m
+[0;32mI (1585) heap_init: At 4FF3AFC0 len 00004BF0 (18 KiB): RAM[0m
+[0;32mI (1585) heap_init: At 4FF40000 len 00060000 (384 KiB): RAM[0m
+[0;32mI (1585) heap_init: At 50108080 len 00007F80 (31 KiB): RTCRAM[0m
+[0;32mI (1585) heap_init: At 30100068 len 00001F98 (7 KiB): TCM[0m
+[0;32mI (1586) esp_psram: Adding pool of 32768K of PSRAM memory to heap allocator[0m
+[0;33mW (1587) spi_flash: GigaDevice detected but related driver is not linked, please check option `SPI_FLASH_SUPPORT_GD_CHIP`[0m
+[0;32mI (1587) spi_flash: detected chip: generic[0m
+[0;32mI (1587) spi_flash: flash io: dio[0m
+[0;33mW (1588) spi_flash: Detected size(16384k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (1589) main_task: Started on CPU0[0m
+[0;32mI (1599) main_task: Calling app_main()[0m
+[0;32mI (1599) main: Main App Started:[0m
+[0;32mI (1609) main: Starting camera hardware init test[0m
+[0;32mI (1609) camera_init: Using resolution: 1280 x 720 [0m
+[0;32mI (1609) camera_init: External clock started[0m
+[0;32mI (1709) camera_init: Camera powered on[0m
+[0;32mI (1909) camera_init: Camera reset completed[0m
+[0;33mW (1909) i2c.master: Please check pull-up resistances whether be connected properly. Otherwise unexpected behavior would happen. For more detailed information, please read docs[0m
+[0;32mI (1909) camera_init: I2C bus initialized[0m
+[0;32mI (1929) ov2710: Detected Camera sensor PID=0x2710[0m
+[0;32mI (2039) camera_init: ISP initialized successfully[0m
+[0;32mI (2039) camera_init: Contrast set to 53%[0m
+[0;32mI (2039) camera_init: Saturation set to 63%[0m
+[0;32mI (2039) camera_init: Brightness set to 50%[0m
+[0;32mI (2039) camera_init: Hue set to 5%[0m
+[0;32mI (2039) camera_init: Current format - width: 1280, height: 720, pixelformat: 0x50424752[0m
+[0;32mI (2039) camera_init: Buffers requested successfully[0m
+[0;32mI (2039) camera_init: Buffer 0 size from query: 1843200[0m
+[0;32mI (2039) camera_init: Buffer 0 queued successfully[0m
+[0;32mI (2039) camera_init: Buffer 1 size from query: 1843200[0m
+[0;32mI (2039) camera_init: Buffer 1 queued successfully[0m
+[0;32mI (2039) main: Camera hardware initialized successfully![0m
+[0;32mI (2039) main: Initializing serial...[0m
+[0;32mI (2039) serial_utils: Initializing USB Serial/JTAG interface[0m
+[0;32mI (2039) serial_utils: USB Serial/JTAG initialization successful[0m
+[0;32mI (2039) main: Serial initialized successfully![0m
+[0;32mI (2039) main: Listening for commands...[0m
+[0;32mI (8099) main: Received SHUTDOWN command[0m
+[0;32mI (9099) main: Begining de-initialization process...[0m
+[0;32mI (9099) main: De-initializing camera hardware...[0m
+[0;32mI (9199) camera_init: Camera powered down[0m
+[1;31mE (9199) i2c.master: Cannot delete I2C bus(0): devices are still attached, please remove all devices and then delete bus[0m
+ESP_ERROR_CHECK failed: esp_err_t 0x103 (ESP_ERR_INVALID_STATE) at 0x4000c43a
+file: "./main/camera_init.c" line 426
+func: camera_hardware_deinit
+expression: i2c_del_master_bus(i2c_bus)
+
+abort() was called at PC 0x4ff098c5 on core 0
+Core  0 register dump:
+MEPC    : 0x4ff00c7a  RA      : 0x4ff098d0  SP      : 0x4ff1be80  GP      : 0x4ff14c80  
+TP      : 0x4ff1bf90  T0      : 0x37363534  T1      : 0x7271706f  T2      : 0x33323130  
+S0/FP   : 0x00000004  S1      : 0x4ff1bee4  A0      : 0x4ff1beac  A1      : 0x4ff1bee2  
+A2      : 0x00000000  A3      : 0x4ff1bed9  A4      : 0x00000001  A5      : 0x4ff18000  
+A6      : 0x00000000  A7      : 0x76757473  S2      : 0x00000000  S3      : 0x00000000  
+S4      : 0x00000000  S5      : 0x00000000  S6      : 0x00000000  S7      : 0x00000000  
+S8      : 0x00000000  S9      : 0x00000000  S10     : 0x00000000  S11     : 0x00000000  
+T3      : 0x6e6d6c6b  T4      : 0x6a696867  T5      : 0x66656463  T6      : 0x62613938  
+MSTATUS : 0x00011880  MTVEC   : 0x4ff00003  MCAUSE  : 0x00000002  MTVAL   : 0x00000000  
+MHARTID : 0x00000000  
+
+add symbol table from file "/Users/ant-smalls/esp/projects/esp_p4_eye_proto/build/bootloader/bootloader.elf"
+panic_abort (details=details@entry=0x4ff1beac "abort() was called at PC 0x4ff098c5 on core 0") at /Users/ant-smalls/esp/esp-idf/components/esp_system/panic.c:483
+483	    asm("unimp");   // should be an invalid operation on RISC-V targets
+#0  panic_abort (details=details@entry=0x4ff1beac "abort() was called at PC 0x4ff098c5 on core 0") at /Users/ant-smalls/esp/esp-idf/components/esp_system/panic.c:483
+#1  0x4ff098d0 in esp_system_abort (details=details@entry=0x4ff1beac "abort() was called at PC 0x4ff098c5 on core 0") at /Users/ant-smalls/esp/esp-idf/components/esp_system/port/esp_system_chip.c:87
+#2  0x4ff124d0 in abort () at /Users/ant-smalls/esp/esp-idf/components/newlib/src/abort.c:38
+#3  0x4ff098c8 in _esp_error_check_failed (rc=<optimized out>, file=file@entry=0x400545f8 "", line=line@entry=426, function=function@entry=0x40062730 <__func__.2> "", expression=expression@entry=0x40054634 "") at /Users/ant-smalls/esp/esp-idf/components/esp_system/esp_err.c:49
+#4  0x4000c43e in camera_hardware_deinit () at /Users/ant-smalls/esp/projects/esp_p4_eye_proto/main/camera_init.c:426
+#5  0x4000b7c4 in app_main () at /Users/ant-smalls/esp/projects/esp_p4_eye_proto/main/main.c:77
+#6  0x400447ca in main_task (args=<error reading variable: value has been optimized out>) at /Users/ant-smalls/esp/esp-idf/components/freertos/app_startup.c:208
+#7  0x4ff0a64a in vPortTaskWrapper (pxCode=<optimized out>, pvParameters=<optimized out>) at /Users/ant-smalls/esp/esp-idf/components/freertos/FreeRTOS-Kernel/portable/riscv/port.c:255
+
+
+
+ELF file SHA256: c346c92b1
+
+Rebooting...
+ESP-ROM:esp32p4-eco2-20240710
+Build:Jul 10 2024
+rst:0xc (SW_CPU_RESET),boot:0x308 (SPI_FAST_FLASH_BOOT)
+Core0 Saved PC:0x4ff0444e
+Core1 Saved PC:0x4ff045aa
+SPI mode:DIO, clock div:1
+load:0x4ff33ce0,len:0x1650
+load:0x4ff29ed0,len:0xccc
+load:0x4ff2cbd0,len:0x3378
+entry 0x4ff29eda
+[0;32mI (20) boot: ESP-IDF v5.5-dev-3749-g98cd765953-dirty 2nd stage bootloader[0m
+[0;32mI (20) boot: compile time Jul 28 2025 20:15:51[0m
+[0;32mI (20) boot: Multicore bootloader[0m
+[0;32mI (22) boot: chip revision: v1.0[0m
+[0;32mI (22) boot: efuse block revision: v0.3[0m
+[0;32mI (22) boot.esp32p4: SPI Speed      : 80MHz[0m
+[0;32mI (22) boot.esp32p4: SPI Mode       : DIO[0m
+[0;32mI (23) boot.esp32p4: SPI Flash Size : 2MB[0m
+[0;32mI (23) boot: Enabling RNG early entropy source...[0m
+[0;32mI (23) boot: Partition Table:[0m
+[0;32mI (23) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (24) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (24) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (25) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (26) boot: End of partition table[0m
+[0;32mI (27) esp_image: segment 0: paddr=00010020 vaddr=40050020 size=1850ch ( 99596) map[0m
+[0;32mI (42) esp_image: segment 1: paddr=00028534 vaddr=30100000 size=00068h (   104) load[0m
+[0;32mI (43) esp_image: segment 2: paddr=000285a4 vaddr=4ff00000 size=07a74h ( 31348) load[0m
+[0;32mI (50) esp_image: segment 3: paddr=00030020 vaddr=40000020 size=464f0h (287984) map[0m
+[0;32mI (91) esp_image: segment 4: paddr=00076518 vaddr=4ff07a74 size=0c9c4h ( 51652) load[0m
+[0;32mI (101) esp_image: segment 5: paddr=00082ee4 vaddr=4ff14480 size=02988h ( 10632) load[0m
+[0;32mI (108) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (108) boot: Disabling RNG early entropy source...[0m
+[0;32mI (110) hex_psram: vendor id    : 0x0d (AP)[0m
+[0;32mI (110) hex_psram: Latency      : 0x01 (Fixed)[0m
+[0;32mI (111) hex_psram: DriveStr.    : 0x00 (25 Ohm)[0m
+[0;32mI (111) hex_psram: dev id       : 0x03 (generation 4)[0m
+[0;32mI (111) hex_psram: density      : 0x07 (256 Mbit)[0m
+[0;32mI (112) hex_psram: good-die     : 0x06 (Pass)[0m
+[0;32mI (112) hex_psram: SRF          : 0x02 (Slow Refresh)[0m
+[0;32mI (112) hex_psram: BurstType    : 0x00 ( Wrap)[0m
+[0;32mI (113) hex_psram: BurstLen     : 0x03 (2048 Byte)[0m
+[0;32mI (113) hex_psram: BitMode      : 0x01 (X16 Mode)[0m
+[0;32mI (113) hex_psram: Readlatency  : 0x02 (10 cycles@Fixed)[0m
+[0;32mI (114) hex_psram: DriveStrength: 0x00 (1/1)[0m
+[0;32mI (114) MSPI DQS: tuning success, best phase id is 0[0m
+[0;32mI (291) MSPI DQS: tuning success, best delayline id is 15[0m
+[0;32mI (291) esp_psram: Found 32MB PSRAM device[0m
+[0;32mI (292) esp_psram: Speed: 80MHz[0m
+[0;32mI (292) hex_psram: psram CS IO is dedicated[0m
+[0;32mI (293) cpu_start: Multicore app[0m
+[0;32mI (1579) esp_psram: SPI SRAM memory test OK[0m
+[0;32mI (1588) cpu_start: Pro cpu start user code[0m
+[0;32mI (1589) cpu_start: cpu freq: 360000000 Hz[0m
+[0;32mI (1589) app_init: Application information:[0m
+[0;32mI (1589) app_init: Project name:     esp_p4_eye_proto[0m
+[0;32mI (1589) app_init: App version:      3ccb46e-dirty[0m
+[0;32mI (1589) app_init: Compile time:     Jul 28 2025 20:16:09[0m
+[0;32mI (1590) app_init: ELF file SHA256:  c346c92b1...[0m
+[0;32mI (1590) app_init: ESP-IDF:          v5.5-dev-3749-g98cd765953-dirty[0m
+[0;32mI (1590) efuse_init: Min chip rev:     v0.1[0m
+[0;32mI (1590) efuse_init: Max chip rev:     v1.99 [0m
+[0;32mI (1591) efuse_init: Chip rev:         v1.0[0m
+[0;32mI (1591) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (1591) heap_init: At 4FF18900 len 000226C0 (137 KiB): RAM[0m
+[0;32mI (1591) heap_init: At 4FF3AFC0 len 00004BF0 (18 KiB): RAM[0m
+[0;32mI (1592) heap_init: At 4FF40000 len 00060000 (384 KiB): RAM[0m
+[0;32mI (1592) heap_init: At 50108080 len 00007F80 (31 KiB): RTCRAM[0m
+[0;32mI (1592) heap_init: At 30100068 len 00001F98 (7 KiB): TCM[0m
+[0;32mI (1593) esp_psram: Adding pool of 32768K of PSRAM memory to heap allocator[0m
+[0;33mW (1594) spi_flash: GigaDevice detected but related driver is not linked, please check option `SPI_FLASH_SUPPORT_GD_CHIP`[0m
+[0;32mI (1594) spi_flash: detected chip: generic[0m
+[0;32mI (1594) spi_flash: flash io: dio[0m
+[0;33mW (1594) spi_flash: Detected size(16384k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (1596) main_task: Started on CPU0[0m
+[0;32mI (1606) main_task: Calling app_main()[0m
+[0;32mI (1606) main: Main App Started:[0m
+[0;32mI (1616) main: Starting camera hardware init test[0m
+[0;32mI (1616) camera_init: Using resolution: 1280 x 720 [0m
+[0;32mI (1616) camera_init: External clock started[0m
+[0;32mI (1716) camera_init: Camera powered on[0m
+[0;32mI (1916) camera_init: Camera reset completed[0m
+[0;33mW (1916) i2c.master: Please check pull-up resistances whether be connected properly. Otherwise unexpected behavior would happen. For more detailed information, please read docs[0m
+[0;32mI (1916) camera_init: I2C bus initialized[0m
+[0;32mI (1936) ov2710: Detected Camera sensor PID=0x2710[0m
+[0;32mI (2046) camera_init: ISP initialized successfully[0m
+[0;32mI (2046) camera_init: Contrast set to 53%[0m
+[0;32mI (2046) camera_init: Saturation set to 63%[0m
+[0;32mI (2046) camera_init: Brightness set to 50%[0m
+[0;32mI (2046) camera_init: Hue set to 5%[0m
+[0;32mI (2046) camera_init: Current format - width: 1280, height: 720, pixelformat: 0x50424752[0m
+[0;32mI (2046) camera_init: Buffers requested successfully[0m
+[0;32mI (2046) camera_init: Buffer 0 size from query: 1843200[0m
+[0;32mI (2046) camera_init: Buffer 0 queued successfully[0m
+[0;32mI (2046) camera_init: Buffer 1 size from query: 1843200[0m
+[0;32mI (2046) camera_init: Buffer 1 queued successfully[0m
+[0;32mI (2046) main: Camera hardware initialized successfully![0m
+[0;32mI (2046) main: Initializing serial...[0m
+[0;32mI (2046) serial_utils: Initializing USB Serial/JTAG interface[0m
+[0;32mI (2046) serial_utils: USB Serial/JTAG initialization successful[0m
+[0;32mI (2046) main: Serial initialized successfully![0m
+[0;32mI (2046) main: Listening for commands...[0m

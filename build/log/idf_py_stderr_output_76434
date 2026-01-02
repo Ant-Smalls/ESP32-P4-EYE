@@ -1,0 +1,37 @@
+Command: /Users/ant-smalls/.espressif/python_env/idf5.5_py3.12_env/bin/python /Users/ant-smalls/esp/esp-idf/tools/idf_monitor.py -p /dev/cu.usbmodem14201 -b 115200 --toolchain-prefix riscv32-esp-elf- --target esp32p4 --revision 1 --decode-panic backtrace /Users/ant-smalls/esp/projects/esp_p4_eye_proto/build/esp_p4_eye_proto.elf /Users/ant-smalls/esp/projects/esp_p4_eye_proto/build/bootloader/bootloader.elf -m '/Users/ant-smalls/.espressif/python_env/idf5.5_py3.12_env/bin/python' '/Users/ant-smalls/esp/esp-idf/tools/idf.py'
+[0;33m--- esp-idf-monitor 1.6.2 on /dev/cu.usbmodem14201 115200[0m
+[0;33m--- Quit: Ctrl+] | Menu: Ctrl+T | Help: Ctrl+T followed by Ctrl+H[0m
+[0;33m--- 0x4000a250: s_test_psram at /Users/ant-smalls/esp/esp-idf/components/esp_psram/system_layer/esp_psram.c:554
+[0m
+[0;33m--- 0x4ff29ed0: esp_bootloader_get_description at /Users/ant-smalls/esp/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c:39
+[0m
+[0;33m--- 0x4ff2cbd0: esp_flash_encryption_enabled at /Users/ant-smalls/esp/esp-idf/components/bootloader_support/src/flash_encrypt.c:89
+[0m
+[0;33m--- 0x4ff29eda: call_start_cpu0 at /Users/ant-smalls/esp/esp-idf/components/bootloader/subproject/main/bootloader_start.c:25
+[0m
+[0;33m--- 0x4000c43a: camera_hardware_deinit at /Users/ant-smalls/esp/projects/esp_p4_eye_proto/main/camera_init.c:426
+[0m
+[0;33m--- 0x4ff098c5: _esp_error_check_failed at /Users/ant-smalls/esp/esp-idf/components/esp_system/esp_err.c:49
+[0m
+[0;33m--- Stack dump detected[0m
+[0;33m--- 0x4ff00c7a: panic_abort at /Users/ant-smalls/esp/esp-idf/components/esp_system/panic.c:483
+--- 0x4ff098d0: __ubsan_include at /Users/ant-smalls/esp/esp-idf/components/esp_system/ubsan.c:311
+[0m
+[0;33m--- 0x4ff00003: _vector_table at ??:?
+[0m
+[0;33m
+--- Backtrace:
+
+[0m
+[0;33m--- 0x4ff0444e: cpu_utility_ll_reset_cpu at /Users/ant-smalls/esp/esp-idf/components/hal/esp32p4/include/hal/cpu_utility_ll.h:25
+---  (inlined by) esp_cpu_reset at /Users/ant-smalls/esp/esp-idf/components/esp_hw_support/cpu.c:49
+[0m
+[0;33m--- 0x4ff045aa: esp_cpu_wait_for_intr at /Users/ant-smalls/esp/esp-idf/components/esp_hw_support/cpu.c:57
+[0m
+[0;33m--- 0x4ff29ed0: esp_bootloader_get_description at /Users/ant-smalls/esp/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c:39
+[0m
+[0;33m--- 0x4ff2cbd0: esp_flash_encryption_enabled at /Users/ant-smalls/esp/esp-idf/components/bootloader_support/src/flash_encrypt.c:89
+[0m
+[0;33m--- 0x4ff29eda: call_start_cpu0 at /Users/ant-smalls/esp/esp-idf/components/bootloader/subproject/main/bootloader_start.c:25
+[0m
+[0m
